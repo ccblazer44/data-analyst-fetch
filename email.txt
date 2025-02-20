@@ -3,7 +3,6 @@ Hi Katie,
 As part of my analysis, I identified several data integrity challenges that impact how well we can use the dataset, as well as a key growth insight that may be valuable for Fetch.
 
 
-
 Data Quality Challenges
 
 1. Missing Data (Users & Products)
