@@ -1,5 +1,7 @@
 # Fetch Data Analyst Take-Home Assignment
 
+Everything was done on a MacBook with a local instance of PostgreSQL.  Visualizations were done in Python, usage instructions at the bottom.
+
 ## 1. Data Exploration
 
 The provided dataset consists of three CSV files:
@@ -8,22 +10,25 @@ The provided dataset consists of three CSV files:
 - **users.csv** (User demographic and account details)
 - **products.csv** (Product metadata)
 
-## Data Quality Issues
+## 2. Data Quality Issues
+
+All supporting code for investigating data quality and fixing some issues is in the `sql` folder of this repository.
 
 ### Users Data
+
 
 - `birth_date` is missing for 3,675 users, making age-based analysis incomplete.
 - `state`, `language`, and `gender` have substantial missing values, impacting segmentation.
 - `language` has only two unique values (`en`, `es-419`), which seems limited.
 - Inconsistent values in the `gender` column, requiring standardization.
 - Some users have an age over 120, which seems implausible and may be due to placeholder or incorrect data.
-- Only 91 users from the users table match userids from the transaction table. This makes querying user info from transactions very difficult.
+- Only 91 users from the users table match `user_id` from the transaction table. This makes querying user info from transactions very difficult.
 
 
 ### Products Data
 
 - There were fully duplicate records which I removed.
-- `CATEGORY_4` is missing for 774,109 products, limiting product classification depth.
+- Lots of missing category data. `CATEGORY_4` is missing for 774,109 products, limiting product classification depth.
 - `MANUFACTURER` and `BRAND` have over 226,000 missing values, making brand-level analysis difficult.
 #### Placeholder values found in manufacturer and brand fields:
 - "PLACEHOLDER MANUFACTURER" in the `manufacturer` column.
@@ -38,47 +43,28 @@ The provided dataset consists of three CSV files:
 
 ### Transactions Data
 
-During the initial exploration, we identified several data quality issues:
 
-- Exactly half the records seemed to be bad.  Each item on each receipt was duplicated with 1 record having what looked like good data and 1 record having what looked like bad data.
-  - The bad data was the word 'zero' in the final_quantity column OR a blank space ' ' in the final_sale column.
-  - I couldn't see any use for these records so I removed them.  This is the main thing I would put in the "Are there any fields that are challenging to understand?" category and would want clarification.  It seems to me like an error with the way records are being created / receipts were being ingested in the first place.
-- 2,856 NULL barcodes, affecting product mapping.
-- 4,465 distinct barcodes in the transaction table that have no match in the products table.
+- Exactly half the records appeared to be bad.  Each item on each receipt was duplicated with one record having what looked like good data and one record having what looked like bad data.
+    - The bad data was the word 'zero' in the `final_quantity` column OR a blank space ' ' in the `final_sale` column.
+    - I couldn't see any use for these records so I removed them.  This is the main issue I would put in the **"Are there any fields that are challenging to understand?"** category and would want clarification.  It seems to me like an error with the way records are being created / receipts were being ingested in the first place.
 
-
+- 2,856 NULL `barcode`, affecting product mapping.
+- 4,465 distinct `barcode` in the transaction table that have no match in the products table.
 
 
 
 
-## Fields That Are Challenging to Understand
-
-### `FINAL_QUANTITY` in Transactions
-
-- Some values are "zero", which could indicate returns, voided items, or bad data.
-- Needs clarification from Fetch on whether these should be excluded.
-
-### `SCAN_DATE` vs. `PURCHASE_DATE`
-
-- `SCAN_DATE` is sometimes after `PURCHASE_DATE`, implying manual receipt submission rather than real-time scanning.
-- This affects time-based analyses (e.g., user activity trends).
-
-### `barcode` Inconsistencies
-
-- The same barcode appears with different brands/manufacturers in `products.csv`, making brand mapping unreliable.
-
-
-## SQL Queries
+## 3. SQL Queries
 
 I know the instructions said to answer 3 questions but I answered all of them.
 
 ### What are the top 5 brands by receipts scanned among users 21 and over?
 
-DOVE
-NERDS CANDY
-TRIDENT
-GREAT VALUE
-MEIJER
+1. DOVE
+2. NERDS CANDY
+3. TRIDENT
+4. GREAT VALUE
+5. MEIJER
 
 ```sql
 SELECT p.brand
@@ -91,17 +77,17 @@ ORDER BY COUNT(DISTINCT t.receipt_id) DESC, SUM(t.quantity * t.sale) desc
 LIMIT 5
 ```
 
-I used `SUM(t.quantity * t.sale)` as a tie breaker to limit the answer to 5 brands.
+I used `SUM(t.quantity * t.sale)` as a tie-breaker to limit the answer to five brands.
 
 ### What are the top 5 brands by sales among users that have had their account for at least six months?
 
-CVS
-DOVE
-TRESEMMÉ
-TRIDENT
-COORS LIGHT
+1. CVS 
+2. DOVE 
+3. TRESEMMÉ 
+4. TRIDENT
+5. COORS LIGHT
 
-Basically the same query, changing birth_date to created_date with a different interval and sorting only by `SUM(t.quantity * t.sale)`
+Basically the same query, changing `birth_date` to `created_date` with a different interval and sorting only by `SUM(t.quantity * t.sale)`
 
 ```sql
 SELECT p.brand
@@ -120,7 +106,7 @@ Assumption: by generation we mean the noun and are using it to section users by 
 
 Using generation dates from here: https://www.pewresearch.org/short-reads/2019/01/17/where-millennials-end-and-generation-z-begins/
 
-This one was extra tough because of the previously mentioned data quality issues connecting the tables.
+This one was particularly challenging because of the previously mentioned data quality issues connecting the tables.
 
 | Generation | Health & Wellness Sales | Total Sales | Percentage of Sales |
 |-|-|-|-|
@@ -175,7 +161,7 @@ ORDER BY percentage_of_sales DESC;
 
 Assumption: we want some kind of marketable demographic data and not a list of the top 5 userids by spending, or something like that.  
 
-Women age 35-44.
+**Women age 35-44.**
 
 ![power_users](img/power_users.png)
 
@@ -218,7 +204,9 @@ ORDER BY total_receipts DESC;
 
 ### Which is the leading brand in the Dips & Salsa category?
 
-Tostitos
+**Tostitos**
+
+For an interactive visualization showing Tostitos as the number one brand in total sales and receipts scanned see the python section at the bottom.
 
 ```sql
 SELECT p.brand, 
@@ -235,7 +223,7 @@ ORDER BY total_sales DESC;
 
 We are lacking transaction data across years which was my first impulse, so I used the number of users.
 
-YoY growth by users for 2024 was %13.16
+YoY growth by users for 2024 was 13.16%.
 
 ![yoy](img/yoy.png)
 
@@ -264,16 +252,42 @@ FROM cumulative_users
 ORDER BY year DESC;
 ```
 
+## 4. Python
 
+Static visualizations were generated using matplotlib, dynamic visualizations using streamlit.  Data loaded using pandas and sqlalchemy.
 
-python -m venv fetch_env
+All python code can be found in the python folder in this repository.
+
+#### Usage: 
+
+Update DB connection info in config.py:
+
+```python
+DB_HOST = os.getenv("DB_HOST", "")  # Change to your PostgreSQL host
+DB_NAME = os.getenv("DB_NAME", "")  # Your database name
+DB_USER = os.getenv("DB_USER", "")  # Your PostgreSQL username
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")  # Your PostgreSQL password
+DB_PORT = os.getenv("DB_PORT", "5432")  # Default PostgreSQL port
+```
+
+Set up environment and install requirements: 
+```
+python3 -m venv fetch_env
 
 source fetch_env/bin/activate
 
 python3 -m pip install -r requirements.txt
+```
 
+Interactive visualization regarding salsa brands:
+
+`streamlit run salsa.py`
+
+Generate static visuals used in the write up:
+
+```
 python3 power_users.py
-
-streamlit run salsa.py
+python3 yoy.py
+```
 
 

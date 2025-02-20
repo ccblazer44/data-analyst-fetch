@@ -251,6 +251,50 @@ GROUP BY age_group, ud.gender
 ORDER BY total_receipts DESC;
 
 
+-- hmm maybe store name has something interesting
+SELECT 
+    store_name, 
+    COUNT(*) AS transaction_count
+FROM transactions
+GROUP BY store_name
+ORDER BY transaction_count DESC;
+
+
+WITH user_activity AS (
+    SELECT user_id, 
+           store_name,
+           COUNT(DISTINCT receipt_id) AS total_receipts,
+           SUM(quantity * sale) AS total_spent
+    FROM transactions
+    GROUP BY user_id, store_name
+),
+user_details AS (
+    SELECT id, 
+           gender, 
+           EXTRACT(YEAR FROM AGE(CURRENT_DATE, birth_date)) AS age
+    FROM users
+    WHERE birth_date IS NOT NULL
+)
+SELECT 
+    ua.store_name,
+    CASE 
+        WHEN ud.age < 18 THEN 'Under 18'
+        WHEN ud.age BETWEEN 18 AND 24 THEN '18-24'
+        WHEN ud.age BETWEEN 25 AND 34 THEN '25-34'
+        WHEN ud.age BETWEEN 35 AND 44 THEN '35-44'
+        WHEN ud.age BETWEEN 45 AND 54 THEN '45-54'
+        WHEN ud.age BETWEEN 55 AND 64 THEN '55-64'
+        ELSE '65+' 
+    END AS age_group,
+    ud.gender,
+    COUNT(DISTINCT ua.user_id) AS user_count,
+    SUM(ua.total_receipts) AS total_receipts,
+    SUM(ua.total_spent) AS total_spent
+FROM user_activity ua
+JOIN user_details ud ON ua.user_id = ud.id
+GROUP BY ua.store_name, age_group, ud.gender
+ORDER BY total_receipts DESC;
+
 
 -- dips and salsa
 

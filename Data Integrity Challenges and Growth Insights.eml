@@ -1,0 +1,123 @@
+MIME-Version: 1.0
+Date: Wed, 19 Feb 2025 18:56:05 -0800
+Message-ID: <CAMk6D0r2_pnCMDcgQS0DpugK7qWaHb9hqHab1ObJRsYEGLUT6Q@mail.gmail.com>
+Subject: Data Integrity Challenges and Growth Insights
+From: Chris Blazer <ccblazer44@gmail.com>
+To: Chris Blazer <ccblazer44@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000e52ef0062e8a03cc"
+
+--000000000000e52ef0062e8a03cc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Katie,
+
+As part of my analysis, I identified several data integrity challenges that
+impact how well we can use the dataset, as well as a key growth insight
+that may be valuable for Fetch.
+*Data Quality Challenges**1. Missing Data (Users & Products)*
+
+A significant portion of user and product data is incomplete:
+
+   - *Users*: Many records are missing birth_date, state, language, and
+   gender, limiting segmentation and demographic insights.
+   - *Products*: A large number of records have placeholder or missing
+   values in brand and manufacturer, and many products lack full category
+   classifications, making it difficult to accurately analyze brand
+   performance, category trends, and product-level sales insights.
+
+Should we extrapolate missing user demographics and product information
+based on available distributions, or exclude them from certain analyses?
+
+Is there some way we can incentivize our users to supply more data?  Maybe
+extra rewards for uploading a valid ID?
+*2. Data That Doesn=E2=80=99t Cross-Reference Between Tables*
+
+One of the biggest challenges is that many transaction records reference
+user_ids or barcodes that don=E2=80=99t appear in the users or products tab=
+les.
+This makes it difficult to fully analyze user behavior and product sales
+trends.
+
+Are there steps we can take to ensure transactions reference valid users
+and products?
+
+How frequently do we update our user and product information, and could an
+update help resolve these gaps?
+*3. Investigating Duplicate Transactions*
+
+Roughly half of all transactions appear to be duplicates, with one version
+containing valid data and the other containing "zero" quantities or missing
+sales values. This suggests an issue occurring at the data ingestion stage.
+
+Would it be possible to review how transactions are recorded and ingested
+to understand why these duplicates are created?
+
+
+*Key Finding: Strong User Growth with Opportunities to Improve Engagement*
+
+The total user base continues to grow, which is a great sign. However,
+year-over-year growth has slowed slightly compared to previous years. One
+way to reaccelerate engagement may be through demographic insights=E2=80=94=
+for
+example, we see that women aged 35-44 scan more receipts than any other
+group. If Fetch isn=E2=80=99t already leveraging targeted engagement strate=
+gies for
+this segment, this could be an opportunity to enhance retention and
+increase spending.
+
+Would love to hear your thoughts on how best to proceed with these
+findings. Let me know how I can help.
+
+
+Thanks,
+
+- Chris Blazer
+
+--000000000000e52ef0062e8a03cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:arial,he=
+lvetica,sans-serif"><p>Hi Katie,</p><p>As part of my analysis, I identified=
+ several data integrity challenges that impact how well we can use the data=
+set, as well as a key growth insight that may be valuable for Fetch.</p><h3=
+><strong>Data Quality Challenges</strong></h3><h4><strong>1. Missing Data (=
+Users &amp; Products)</strong></h4><p>A significant portion of user and pro=
+duct data is incomplete:</p><ul><li><strong>Users</strong>: Many records ar=
+e missing <code>birth_date</code>, <code>state</code>, <code>language</code=
+>, and <code>gender</code>, limiting segmentation and demographic insights.=
+</li><li><strong>Products</strong>: A large number of records have placehol=
+der or missing values in <code>brand</code> and <code>manufacturer</code>, =
+and many products lack full category classifications, making it difficult t=
+o accurately analyze brand performance, category trends, and product-level =
+sales insights.</li></ul><p>Should we extrapolate missing user demographics=
+ and product information based on available distributions, or exclude them =
+from certain analyses?</p><p>Is there some way we can incentivize our users=
+ to supply more data?=C2=A0 Maybe extra rewards for uploading a valid ID?</=
+p><h4><strong>2. Data That Doesn=E2=80=99t Cross-Reference Between Tables</=
+strong></h4><p>One of the biggest challenges is that many transaction recor=
+ds reference <code>user_id</code>s or <code>barcodes</code> that don=E2=80=
+=99t appear in the <code>users</code> or <code>products</code> tables. This=
+ makes it difficult to fully analyze user behavior and product sales trends=
+.</p><p>Are there steps we can take to ensure transactions reference valid =
+users and products?</p><p>How frequently do we update our user and product =
+information, and could an update help resolve these gaps?</p><h4><strong>3.=
+ Investigating Duplicate Transactions</strong></h4><p>Roughly half of all t=
+ransactions appear to be duplicates, with one version containing valid data=
+ and the other containing &quot;zero&quot; quantities or missing sales valu=
+es. This suggests an issue occurring at the data ingestion stage.</p><p>Wou=
+ld it be possible to review how transactions are recorded and ingested to u=
+nderstand why these duplicates are created?</p><p><br></p><h3><strong>Key F=
+inding: Strong User Growth with Opportunities to Improve Engagement</strong=
+></h3><p>The total user base continues to grow, which is a great sign. Howe=
+ver, year-over-year growth has slowed slightly compared to previous years. =
+One way to reaccelerate engagement may be through demographic insights=E2=
+=80=94for example, we see that women aged 35-44 scan more receipts than any=
+ other group. If Fetch isn=E2=80=99t already leveraging targeted engagement=
+ strategies for this segment, this could be an opportunity to enhance reten=
+tion and increase spending.</p><p>Would love to hear your thoughts on how b=
+est to proceed with these findings. Let me know how I can help.</p><p><br><=
+/p><p>Thanks,</p><p>- Chris Blazer</p><p><br></p><br></div></div>
+
+--000000000000e52ef0062e8a03cc--

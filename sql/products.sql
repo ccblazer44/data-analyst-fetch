@@ -99,7 +99,7 @@ FROM products
 GROUP BY manufacturer
 ORDER BY COUNT(*) DESC;
 
-
+select * from transactions limit 10
 SELECT *
 FROM products
 WHERE manufacturer ILIKE '%unknown%' OR manufacturer ILIKE '%placeholder%' or manufacturer ILIKE '%manufactur' or brand ILIKE '%known%' or brand ILIKE '%review%'
