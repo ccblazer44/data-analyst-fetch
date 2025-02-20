@@ -155,7 +155,7 @@ ORDER BY total_sales DESC;
 
 
 
--- no
+-- going to use this even though its ending up with very little data
 WITH user_generations AS (
     SELECT id, 
            CASE 
@@ -192,52 +192,6 @@ SELECT ts.generation,
 FROM total_sales ts
 LEFT JOIN category_sales cs ON ts.generation = cs.generation
 ORDER BY percentage_of_sales DESC;
-
-
-
--- total sales by generation then what % of those are health and wellness
-
-SELECT ts.generation,
-       ts.total_sales,
-       COALESCE(hw.health_wellness_sales, 0) AS health_wellness_sales,
-       ROUND((COALESCE(hw.health_wellness_sales, 0) * 100.0) / NULLIF(ts.total_sales, 0), 2) AS percentage_hw_sales
-FROM (
-    -- Total Sales for All Categories by Generation
-    SELECT 
-           CASE 
-               WHEN u.birth_date >= '2012-01-01' THEN 'Gen Alpha'
-               WHEN u.birth_date BETWEEN '1997-01-01' AND '2011-12-31' THEN 'Gen Z'
-               WHEN u.birth_date BETWEEN '1981-01-01' AND '1996-12-31' THEN 'Millennials'
-               WHEN u.birth_date BETWEEN '1965-01-01' AND '1980-12-31' THEN 'Gen X'
-               WHEN u.birth_date BETWEEN '1946-01-01' AND '1964-12-31' THEN 'Boomers'
-               ELSE 'Silent Generation'
-           END AS generation,
-           SUM(t.quantity * t.sale) AS total_sales
-    FROM transactions t
-    JOIN users u ON t.user_id = u.id
-    WHERE u.birth_date IS NOT NULL
-    GROUP BY generation
-) ts
-LEFT JOIN (
-    -- Total Sales for Health & Wellness by Generation
-    SELECT 
-           CASE 
-               WHEN u.birth_date >= '2012-01-01' THEN 'Gen Alpha'
-               WHEN u.birth_date BETWEEN '1997-01-01' AND '2011-12-31' THEN 'Gen Z'
-               WHEN u.birth_date BETWEEN '1981-01-01' AND '1996-12-31' THEN 'Millennials'
-               WHEN u.birth_date BETWEEN '1965-01-01' AND '1980-12-31' THEN 'Gen X'
-               WHEN u.birth_date BETWEEN '1946-01-01' AND '1964-12-31' THEN 'Boomers'
-               ELSE 'Silent Generation'
-           END AS generation,
-           SUM(t.quantity * t.sale) AS health_wellness_sales
-    FROM transactions t
-    JOIN users u ON t.user_id = u.id
-    JOIN products p ON t.barcode = p.barcode
-    WHERE u.birth_date IS NOT NULL AND p.category_1 = 'Health & Wellness'
-    GROUP BY generation
-) hw ON ts.generation = hw.generation
-ORDER BY percentage_hw_sales DESC;
-
 
 
 
@@ -315,6 +269,15 @@ WHERE p.category_2 = 'Dips & Salsa'
 GROUP BY p.brand
 ORDER BY total_sales DESC
 
+SELECT p.brand, 
+       SUM(t.quantity * t.sale) AS total_sales,
+       COUNT(DISTINCT t.receipt_id) AS receipts_scanned
+FROM transactions t
+JOIN products p ON t.barcode = p.barcode
+WHERE p.category_2 = 'Dips & Salsa'
+GROUP BY p.brand
+ORDER BY total_sales DESC;
+
 
 
 -- year over year growth
@@ -385,5 +348,6 @@ SELECT year,
        ) AS yoy_growth_percentage
 FROM cumulative_users
 ORDER BY year DESC;
+
 
 

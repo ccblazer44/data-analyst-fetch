@@ -81,7 +81,8 @@ select * from products where barcode = 4003207
 
 delete from products where id = 325188
 
-
+select count(*) from products where category_4
+--774109
 
 SELECT category_1, COUNT(*)
 FROM products

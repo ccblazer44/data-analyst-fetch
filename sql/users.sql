@@ -61,19 +61,17 @@ FROM users
 ORDER BY id_length DESC;
 
 
+-- users over the age of 120 or younger than 0
+-- not going to do anything about these for now
 SELECT *
 FROM users
 WHERE birth_date > CURRENT_DATE 
    OR birth_date < CURRENT_DATE - INTERVAL '120 years';
 
 
-
-
-
-SELECT column_name, data_type, is_nullable, column_default
-FROM information_schema.columns
-WHERE table_name = 'users';
-
+-- no birth_date
+select count(*) from users where birth_date is null
+-- 3675
 
 
 select count(distinct user_id) from transactions
@@ -94,6 +92,6 @@ JOIN users u ON t.user_id = u.id;
 -- 91
 
 -- these tables aren't matching up, going to make for problems
+-- 91 users match from the users table to the transactions table
 
 
-select count(*) from transactions where user_id is null

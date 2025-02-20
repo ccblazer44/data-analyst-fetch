@@ -125,7 +125,7 @@ SELECT receipt_id FROM transactions where final_quantity <> 'zero' AND final_sal
 )
 order by receipt_id
 
--- no records with 0 finral quantity.  'zero' seems to be erroneous.
+-- no records with 0 final quantity.  'zero' seems to be erroneous.
 select * from transactions where final_quantity = '0'
 
 -- let's remove it
@@ -147,3 +147,12 @@ select * into transactions_backup from transactions
 
 --delete from transactions where final_sale IS NULL or final_quantity IS DELETE
 
+select count(*) from transactions where barcode is null
+-- 2856
+
+
+SELECT COUNT(distinct t.barcode)
+FROM transactions t
+LEFT JOIN products p ON t.barcode = p.barcode
+WHERE p.barcode IS NULL AND t.barcode IS NOT NULL
+-- 4465
