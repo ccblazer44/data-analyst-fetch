@@ -1,0 +1,49 @@
+Hi Katie,
+
+As part of my analysis, I identified several data integrity challenges that impact how well we can use the dataset, as well as a key growth insight that may be valuable for Fetch.
+
+
+
+Data Quality Challenges
+
+1. Missing Data (Users & Products)
+
+A significant portion of user and product data is incomplete:
+
+    Users: Many records are missing birth_date, state, language, and gender, limiting segmentation and demographic insights.
+
+    Products: A large number of records have placeholder or missing values in brand and manufacturer, and many products lack full category classifications, making it difficult to accurately analyze brand performance, category trends, and product-level sales insights.
+
+Should we extrapolate missing user demographics and product information based on available distributions, or exclude them from certain analyses?
+
+Is there some way we can incentivize our users to supply more data?  Maybe extra rewards for uploading a valid ID?
+
+
+2. Data That Doesn’t Cross-Reference Between Tables
+
+One of the biggest challenges is that many transaction records reference user_ids or barcodes that don’t appear in the users or products tables. This makes it difficult to fully analyze user behavior and product sales trends.
+
+Are there steps we can take to ensure transactions reference valid users and products?
+
+How frequently do we update our user and product information, and could an update help resolve these gaps?
+
+
+3. Investigating Duplicate Transactions
+
+Roughly half of all transactions appear to be duplicates, with one version containing valid data and the other containing "zero" quantities or missing sales values. This suggests an issue occurring at the data ingestion stage.
+
+Would it be possible to review how transactions are recorded and ingested to understand why these duplicates are created?
+
+
+
+Key Finding: Strong User Growth with Opportunities to Improve Engagement
+
+The total user base continues to grow, which is a great sign. However, year-over-year growth has slowed slightly compared to previous years. One way to reaccelerate engagement may be through demographic insights—for example, we see that women aged 35-44 scan more receipts than any other group. If Fetch isn’t already leveraging targeted engagement strategies for this segment, this could be an opportunity to enhance retention and increase spending.
+
+Would love to hear your thoughts on how best to proceed with these findings. Let me know how I can help.
+
+
+
+Thanks,
+
+- Chris Blazer
